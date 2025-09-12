@@ -1,0 +1,84 @@
+body {
+    background: rgb(73, 73, 73);
+    background: radial-gradient(circle at top left, rgba(73, 73, 73, 1) 0%, rgba(52, 52, 52, 1) 70%);
+    height: 100vh;
+    color: #fff;
+}
+
+h1 {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+a:link,
+a:visited {
+    text-decoration: none;
+    color: #fff;
+}
+
+a:hover,
+a:active {
+    text-decoration: underline;
+}
+
+.bg-white {
+    background-color: transparent;
+}
+
+.fix-container {
+    max-width: 480px;
+    position: relative;
+}
+
+#flash-message {
+    position: absolute;
+    background-color: green;
+    padding: 8px;
+    text-align: center;
+    color: #fff;
+    top: 4px;
+    left: 4px;
+    width: calc(100% - 8px);
+}
+
+small.hour-note {
+    opacity: 0.8;
+    font-size: 12px;
+}
+
+.notes {
+    height: 420px;
+}
+
+a.fab-new-note:link,
+a.fab-new-note:visited {
+    /*display: flex;
+    justify-content: center;
+    align-items: center;*/
+    display: inline-block;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background-color: #fff;
+    font-size: 24px;
+    line-height: 44px;
+    text-align: center;
+    color: rgb(73, 73, 73);
+}
+
+a:not(:last-child) {
+    margin-right: 4px;
+}
+
+div a.active {
+    text-decoration: underline;
+}
+
+textarea {
+    background-color: inherit;
+    color: inherit;
+    resize: vertical;
+    min-height: 180px;
+    max-height: 240px;
+}
