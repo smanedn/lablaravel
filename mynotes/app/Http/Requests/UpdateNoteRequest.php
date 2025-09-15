@@ -11,7 +11,7 @@ class UpdateNoteRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,17 @@ class UpdateNoteRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'type_id' => 'required',
+            'note' => 'required|string|max:500',
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+            'type_id.required' => '👇 Scegli una tipologia',
+            'note.required' => '👈 è richiesto',
+            'note.max' => 'Non puoi superare i 500 caratteri',
         ];
     }
 }
