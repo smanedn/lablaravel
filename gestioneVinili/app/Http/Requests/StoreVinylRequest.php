@@ -14,26 +14,30 @@ class StoreVinylRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => 'required|string|max:255',
+
+            'title'        => 'required|string|max:255',
+
             'release_year' => 'nullable|integer|min:1900|max:' . date('Y'),
-            'cover_image' => 'nullable|string|max:255',
-            'artist_id' => 'nullable|exists:artists,id',
-            'genres' => 'nullable|array',
-            'genres.*' => 'exists:genres,id',
+
+            'cover_image'  => 'nullable|string|max:255',
+
+            'artist_id'    => 'nullable|exists:Artist,id',
+
+            'genres'       => 'nullable|array',
+            'genres.*'     => 'exists:Music_Genre,id',
         ];
     }
 
     public function messages(): array
     {
         return [
-            'title.required' => 'The title is required.',
-            'title.max' => 'Title can\'t exceed 255 characters.',
-            'release_year.integer' => 'Year must be a number.',
-            'release_year.min' => 'Year must be at least 1900.',
-            'release_year.max' => 'Year cannot be in the future.',
-            'artist_id.exists' => 'Selected artist does not exist.',
-            'genres.array' => 'Genres must be an array.',
-            'genres.*.exists' => 'Selected genre does not exist.',
+            'title.required'   => 'Il titolo è obbligatorio.',
+            'title.max'        => 'Il titolo non può superare 255 caratteri.',
+            'release_year.min' => 'Anno minimo 1900.',
+            'release_year.max' => 'Anno non può essere nel futuro.',
+            'artist_id.exists' => 'L\'artista selezionato non esiste.',
+            'genres.array'     => 'I generi devono essere un array.',
+            'genres.*.exists'  => 'Uno o più generi selezionati non esistono.',
         ];
     }
 }

@@ -12,7 +12,14 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('vinyl_music_genres', function (Blueprint $table) {
-            $table->id();
+            $table->foreignId('vinyl_id')->constrained('vinyl')
+                ->cascadeOnDelete()
+                ->cascadeOnUpdate();
+            $table->foreignId('genre_id')->constrained('music_genre')
+                ->cascadeOnDelete()
+                ->cascadeOnUpdate();
+
+            $table->primary(['vinyl_id', 'genre_id']);
             $table->timestamps();
         });
     }

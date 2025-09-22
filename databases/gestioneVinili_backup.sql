@@ -1,3 +1,6 @@
+CREATE DATABASE gestioneVinili;
+USE gestioneVinili;
+
 CREATE TABLE Artist (
     id INTEGER PRIMARY KEY,
     first_name TEXT NOT NULL,

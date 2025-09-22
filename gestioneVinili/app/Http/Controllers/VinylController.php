@@ -16,11 +16,22 @@ class VinylController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(): View
+    public function index(Request $request): View
     {
-        $vinyls = Vinyl::with('artist', 'genres')->orderBy('title')->get();
-        return view('vinyls-list', compact('vinyls'));
+        $query = Vinyl::with('artist', 'genres')->orderBy('title');
+
+        if ($request->has('genre')) {
+            $query->whereHas('genres', function ($q) use ($request) {
+                $q->where('id', $request->genre);
+            });
+        }
+
+        $vinyls = $query->get();
+        $genres = \App\Models\Genre::orderBy('name')->get();
+
+        return view('vinyls-list', compact('vinyls', 'genres'));
     }
+
 
     /**
      * Show the form for creating a new resource.
@@ -29,7 +40,7 @@ class VinylController extends Controller
     {
         $artists = Artist::orderBy('last_name')->get();
         $genres = Genre::orderBy('name')->get();
-        return view('vinyls.create', compact('artists', 'genres'));
+        return view('add-vinyls', compact('artists', 'genres'));
     }
 
     /**
@@ -37,12 +48,20 @@ class VinylController extends Controller
      */
     public function store(StoreVinylRequest $request): RedirectResponse
     {
-        $vinyl = Vinyl::create($request->validated());
-        if ($request->has('genres')) {
+        // prendo solo i campi della tabella Vinyl (no genres)
+        $data = $request->safe()->except('genres');
+
+        // creo il vinile
+        $vinyl = Vinyl::create($data);
+
+        // sincronizzo i generi nella pivot
+        if ($request->filled('genres')) {
             $vinyl->genres()->sync($request->input('genres'));
         }
-        return redirect()->route('vinyls.index')->with('success', 'Vinyl added successfully.');
+
+        return redirect()->route('vinyls.index')->with('success', 'Vinile aggiunto con successo.');
     }
+
 
     /**
      * Display the specified resource.
