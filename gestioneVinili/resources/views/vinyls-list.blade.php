@@ -25,7 +25,17 @@
 @section('main-content')
     @forelse($vinyls as $vinyl)
         <article class="row border-bottom border-dark-subtle py-3 align-items-center">
-            <div class="col-10">
+            <div class="col-auto">
+                @if($vinyl->cover_image)
+                    <img src="{{ $vinyl->cover_image }}" alt="Copertina di {{ $vinyl->title }}" style="width:100px; height:100px; object-fit:cover;" class="rounded shadow-sm">
+                @else
+                    <div style="width:100px; height:100px;" class="bg-light d-flex align-items-center justify-content-center text-muted border rounded">
+                        No img
+                    </div>
+                @endif
+            </div>
+
+            <div class="col">
                 <h5>{{ $vinyl->title }} ({{ $vinyl->release_year ?? 'Year N/A' }})</h5>
                 <p>Artist: {{ optional($vinyl->artist)->first_name }} {{ optional($vinyl->artist)->last_name }}</p>
                 <p>Genres:
@@ -37,8 +47,7 @@
                 </p>
             </div>
 
-            {{-- bottone elimina --}}
-            <div class="col-2 text-end">
+            <div class="col-auto text-end">
                 <form action="{{ route('vinyls.destroy', $vinyl) }}" method="POST" onsubmit="return confirm('Sei sicuro di voler eliminare questo vinile?');">
                     @csrf
                     @method('DELETE')
